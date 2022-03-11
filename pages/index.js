@@ -1,33 +1,47 @@
 import Card from '../components/Card';
 import Style from '../styles/Home.module.css'
+import mockData from '../data/mockData.json'
 
-const Index = () => {
+export async function getStaticProps(context) {
 
+  const data = mockData
+  // console.log(data)
+  return {
+    props: {
+      stores: data
+    },
+  }
+}
+
+
+const Index = (props) => {
+
+  // console.log(props.stores)
+  const stores = { props };
   return (
     <div className={Style.container}>
       <h1>Mukarta</h1>
 
       <div className={Style.cardLayout}>
 
-        <Card
-          storeName={'Test 1'}
-          className={Style.card}
-        />
+        {stores && (
 
-        <Card
-          storeName={'Test 2'}
-          className={Style.card}
-        />
+          <div className={Style.cardLayout}>
+            {props.stores.map((store) => {
+              // console.log(store)
 
-        <Card
-          storeName={'Test 3'}
-          className={Style.card}
-        />
+              return (<Card
+                key = {store.id}
+                storeName={store.name}
+                href={`/store/${store.id}`}
+                imgUrl={store.imgUrl}
+                className={Style.card}
+              />)
+            })}
+          </div>
 
-        <Card
-          storeName={'Test 4'}
-          className={Style.card}
-        />
+        )}
+
 
       </div>
     </div>
