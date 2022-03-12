@@ -21,12 +21,21 @@
 }
 
 @media (max-width: 1024px ) {
+  .cardLayout{
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  
   .card{
     flex: 50%;
   }
 }
 
 @media (max-width: 800px ) {
+  .cardLayout{
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
   .card{
     flex: 100%;
   }

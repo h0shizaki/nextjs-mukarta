@@ -1,0 +1,52 @@
+.bannerWrapper{
+    margin: 3rem;
+    margin-left: 5rem;
+}
+
+.bannerTextWrapper {
+    text-align: left;
+}
+
+.bannerTitle{
+    font-size: 5.5em;
+    color: rgb(104, 4, 117);
+}
+
+.bannerHeader {
+    color: grey;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+.buttonWrapper{
+    margin-top: 0.5rem;
+}
+
+.button {
+    background-color: royalblue;
+    cursor: pointer;
+    color: white;
+    outline: 0;
+    border: 0px;
+    z-index: 2;
+
+    padding-top: 1rem ;
+    padding-bottom: 1rem ;
+    font-size: 1.125rem ;
+    line-height: 1.75rem ;
+    padding-left: 2.5rem ;
+    padding-right: 2.5rem ;
+}
+  
+.button:hover {
+    transition: 0.1s;
+    background-color: blueviolet;
+}
+
+
+@media (max-width: 768px) {
+    .bannerWrapper{
+        margin: 2rem;
+        margin-left: 1.5rem;
+    }
+}

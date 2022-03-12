@@ -1,6 +1,7 @@
 import Card from '../components/Card';
 import Style from '../styles/Home.module.css'
 import mockData from '../data/mockData.json'
+import Banner from '../components/Banner';
 
 export async function getStaticProps(context) {
 
@@ -14,13 +15,25 @@ export async function getStaticProps(context) {
 }
 
 
-const Index = (props) => {
+const Home = (props) => {
+
+  //Search function
+
+  const buttonClicked = () => {
+    console.log('Clicked')
+  }
+
 
   // console.log(props.stores)
   const stores = { props };
   return (
     <div className={Style.container}>
-      <h1>Mukarta</h1>
+      <Banner
+        title={'Mukarta'}
+        header={"Don't know place to party we can help!"}
+        buttonText={"View Store nearby"}
+        searchClicked={buttonClicked}
+      />
 
       <div className={Style.cardLayout}>
 
@@ -31,7 +44,7 @@ const Index = (props) => {
               // console.log(store)
 
               return (<Card
-                key = {store.id}
+                key={store.id}
                 storeName={store.name}
                 href={`/store/${store.id}`}
                 imgUrl={store.imgUrl}
@@ -52,4 +65,4 @@ const Index = (props) => {
 
 };
 
-export default Index;
+export default Home;
