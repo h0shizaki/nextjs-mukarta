@@ -2,14 +2,18 @@ import Card from '../components/Card';
 import Style from '../styles/Home.module.css'
 import mockData from '../data/mockData.json'
 import Banner from '../components/Banner';
+import  fetchShabuStores  from "../lib/shabuStore";
 
 export async function getStaticProps(context) {
+  const data2 = await fetchShabuStores();
+
+  // console.log(data2)
 
   const data = mockData
   // console.log(data)
   return {
     props: {
-      stores: data
+      stores: data2
     },
   }
 }

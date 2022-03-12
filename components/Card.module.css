@@ -16,12 +16,17 @@
     padding-bottom: 1.25rem ;
     padding-left: 1rem ;
     padding-right: 1rem ;
+
+    width: 20rem;
+    min-width: 20rem;
+    height: 15rem;
+    min-height: 15rem;
   
     backdrop-filter: blur(10px);
 }
 
 .cardHeader {
-    font-size: 1.25rem ;
+    font-size: 1rem ;
     line-height: 1.75rem ;
     width: 16rem ;
 }
@@ -36,13 +41,16 @@
 }
 
 .cardImageWrapper {
+    text-align: center;
+    margin: 0.5rem;
     border-radius: 0.75rem;
 }
 
 
 .cardWrapper {
-    width: 20rem;
-    margin: 1.5rem;
+    display: block;
+
+    margin: 1rem;
 }
 
 @media (max-width: 1024px) {
