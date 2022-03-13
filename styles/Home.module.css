@@ -2,10 +2,15 @@
   margin-bottom: 14rem ;
 }
 
+.menuText{
+  margin: 3rem;
+  margin-top: 1rem;
+  margin-left: 5rem;  
+}
+
 .sectionWrapper {
   margin-top: 5rem;
 }
-
 .cardLayout {
   display: flex;
   flex-wrap: wrap; 

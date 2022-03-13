@@ -1,13 +1,31 @@
-import { useRouter } from "next/router";
 import mockData from '../../data/mockData.json'
 import Image from "next/image";
 import Link from "next/link";
+import fetchShabuStores from '../../lib/shabuStore';
+
+export async function getStaticProps(staticProps) {
+
+    const params = staticProps.params;
+
+    const stores = await fetchShabuStores();
+    const findStoreById = stores.find((store) => {
+        return store.id.toString() === params.id;
+    })
+
+    // console.log(findStoreById) ;
+    return {
+        props: {
+            store: findStoreById? findStoreById : {},
+        },
+
+    };
+}
 
 export async function getStaticPaths() {
 
-    const stores = mockData;
+    const stores = await fetchShabuStores();
 
-    const paths = stores.map((store) => {
+    const paths = await stores.map((store) => {
         return {
             params: {
                 id: store.id.toString(),
@@ -17,28 +35,9 @@ export async function getStaticPaths() {
 
     return {
         paths,
-        fallback: false // false or 'blocking'
+        fallback: true // false or 'blocking'
     };
 }
-
-export async function getStaticProps(staticProps) {
-
-    const params = staticProps.params;
-
-    const stores = mockData;
-    const findStoreById = stores.find((store) => {
-        return store.id.toString() === params.id;
-    })
-
-    // console.log(findStoreById) ;
-    return {
-        props: {
-            store: findStoreById,
-        },
-
-    };
-}
-
 
 const Store = (props) => {
 

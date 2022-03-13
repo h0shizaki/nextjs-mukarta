@@ -1,16 +1,18 @@
 import Card from '../components/Card';
 import Style from '../styles/Home.module.css'
-import mockData from '../data/mockData.json'
 import Banner from '../components/Banner';
-import  fetchShabuStores  from "../lib/shabuStore";
+import fetchShabuStores from "../lib/shabuStore";
+
+import { useContext, useState } from 'react';
+import { StoreContext } from '../store/store-context';
+
+import useTrackLocation from '../hooks/use-track-location';
+
 
 export async function getStaticProps(context) {
   const data2 = await fetchShabuStores();
-
   // console.log(data2)
 
-  const data = mockData
-  // console.log(data)
   return {
     props: {
       stores: data2
@@ -19,13 +21,19 @@ export async function getStaticProps(context) {
 }
 
 
-const Home = (props) => {
+export default function Home(props) {
+  // console.log(useTrackLocation)
+  const { handleTrackLocation, locationErrorMsg, isFindingLocation } = useTrackLocation();
+  const { dispatch, state } = useContext(StoreContext);
+  
 
   //Search function
 
   const buttonClicked = () => {
-    console.log('Clicked')
+    handleTrackLocation();
   }
+
+  console.log(state)
 
 
   // console.log(props.stores)
@@ -35,10 +43,18 @@ const Home = (props) => {
       <Banner
         title={'Mukarta'}
         header={"Don't know place to party we can help!"}
-        buttonText={"View Store nearby"}
+        buttonText={isFindingLocation ? "Locating..." : "View stores nearby"}
         searchClicked={buttonClicked}
       />
 
+      {locationErrorMsg && (
+        <>
+          Something went wrong : {locationErrorMsg}
+        </>
+      )}
+
+
+      <h2 className={Style.menuText}>Mukarta in chiangmai</h2>
       <div className={Style.cardLayout}>
 
         {stores && (
@@ -68,5 +84,3 @@ const Home = (props) => {
 
 
 };
-
-export default Home;
