@@ -48,9 +48,9 @@ export default function Home(props) {
       />
 
       {locationErrorMsg && (
-        <>
+        <div className={Style.normalText} >
           Something went wrong : {locationErrorMsg}
-        </>
+        </div>
       )}
 
 
