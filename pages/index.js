@@ -3,10 +3,11 @@ import Style from '../styles/Home.module.css'
 import Banner from '../components/Banner';
 import fetchShabuStores from "../lib/shabuStore";
 
-import { useContext, useState } from 'react';
-import { StoreContext } from '../store/store-context';
+import { useContext, useState, useEffect } from 'react';
+import { ACTION_TYPES, StoreContext } from '../store/store-context';
 
 import useTrackLocation from '../hooks/use-track-location';
+
 
 
 export async function getStaticProps(context) {
@@ -25,7 +26,12 @@ export default function Home(props) {
   // console.log(useTrackLocation)
   const { handleTrackLocation, locationErrorMsg, isFindingLocation } = useTrackLocation();
   const { dispatch, state } = useContext(StoreContext);
-  
+
+  const { stores, latLong } = state;
+
+  // console.log(stores);
+
+  const [storesError, setStoresError] = useState('');
 
   //Search function
 
@@ -33,11 +39,37 @@ export default function Home(props) {
     handleTrackLocation();
   }
 
-  console.log(state)
+  //Get store when receive user location
+  useEffect(async () => {
+    if (latLong) {
+
+      try {
+        let limit = 30;
+        const res = await fetch(`/api/getStoresByLocation?latLong=${latLong}&limit=${limit}`);
+        const fetchedStoresData = await res.json();
+
+        dispatch({
+          type: ACTION_TYPES.SET_STORES,
+          payload: { stores: fetchedStoresData }
+        })
+
+        setStoresError('');
+
+      } catch (err) {
+        console.error({ err })
+        setStoresError(err.message)
+
+      }
+
+      // console.log(state)
+    }
+
+  }, [latLong])
+
 
 
   // console.log(props.stores)
-  const stores = { props };
+
   return (
     <div className={Style.container}>
       <Banner
@@ -47,21 +79,52 @@ export default function Home(props) {
         searchClicked={buttonClicked}
       />
 
+      {storesError && (
+        <div className={Style.normalText} >
+          Something went wrong : {storesError}
+        </div>
+      )}
+
       {locationErrorMsg && (
         <div className={Style.normalText} >
           Something went wrong : {locationErrorMsg}
         </div>
       )}
 
+      {stores.length > 0 &&
+        <>
+          <div style={{ "marginTop": "4.5em" }}>
+            <h2 className={Style.menuText}>Mukarta near me</h2>
+          </div>
 
-      <h2 className={Style.menuText}>Mukarta in chiangmai</h2>
+          <div className={Style.cardLayout}>
+            {stores.map((store) => {
+              return (<Card
+                key={store.id}
+                storeName={store.name}
+                href={`/store/${store.id}`}
+                imgUrl={store.imgUrl}
+                className={Style.card}
+              />)
+            })}
+
+          </div>
+
+        </>
+      }
+
+
+
+      <div style={{ "marginTop": "4.5em" }}>
+        <h2 className={Style.menuText}>Mukarta Na moor</h2>
+      </div>
+
       <div className={Style.cardLayout}>
 
-        {stores && (
+        {props.stores && (
 
           <div className={Style.cardLayout}>
             {props.stores.map((store) => {
-              // console.log(store)
 
               return (<Card
                 key={store.id}

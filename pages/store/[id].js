@@ -4,8 +4,10 @@ import Link from "next/link";
 import fetchShabuStores from '../../lib/shabuStore';
 import Head from 'next/head';
 import cls from "classnames";
-import { useState } from 'react';
-
+import { useRouter } from 'next/router';
+import { useContext, useState, useEffect } from 'react';
+import { ACTION_TYPES, StoreContext } from '../../store/store-context';
+import { isEmpty } from '../../utils';
 
 export async function getStaticProps(staticProps) {
 
@@ -43,13 +45,67 @@ export async function getStaticPaths() {
     };
 }
 
-const Store = (props) => {
+const Store = (initialProps) => {
 
-    console.log(props.store)
+    //get data in context 
+    const { state } = useContext(StoreContext);
+    const stores = state.stores;
+
+    // console.log("FROM CONTEXT",stores) ;
+
     const [votingCount, setVotingCount] = useState(0)
-    const { id, name, imgUrl, address, neighborhood } = props.store;
 
+    //get init store from prop if not set it empty , then get from context
+    const [store, setStore] = useState(initialProps.store || {})
+
+
+    console.log("Init Prop", initialProps.store)
+
+    const router = useRouter();
+    const id = router.query.id;
+
+
+    useEffect(() => {
+        
+
+        if (isEmpty(initialProps.store)) {
+
+            if (stores.length > 0) {
+
+                const storeFromContext = stores.find((store) => {
+                    return store.id.toString() === id; //check id from query which same id in context
+                });
+
+                if (storeFromContext) {
+                    setStore(storeFromContext);
+                    console.log("Context props", storeFromContext)
+                }
+            }
+
+        } else {
+
+        }
+    }, [id, initialProps, initialProps.store, stores])
+
+    if (router.isFallback) {
+        return <div>Loading...</div>;
+    }
+
+    const handleVotingButton = async () => {
+        setVotingCount(votingCount + 1)
+    }
+
+    const {
+        address = "",
+        name = "",
+        neighborhood = "",
+        imgUrl = "https://images.unsplash.com/photo-1566705474094-5bf047ce2754?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMDA4NzN8MHwxfHNlYXJjaHwzfHxrb3JlYW4lMjBiYnF8ZW58MHx8fHwxNjQ3MzIzNDI1&ixlib=rb-1.2.1&q=80&w=400",
+    } = store;
+
+
+    // const { name, imgUrl, address, neighborhood } = store;
     return (
+
         <div className={Style.layout}>
 
             <Head>
@@ -103,7 +159,7 @@ const Store = (props) => {
                         <p className={Style.text}>{votingCount}</p>
                     </div>
 
-                    <button className={Style.upvoteButton} onClick={() => { setVotingCount(votingCount + 1) }}>Up vote</button>
+                    <button className={Style.upvoteButton} onClick={handleVotingButton}>Up vote</button>
 
                 </div>
 
