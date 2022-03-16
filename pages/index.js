@@ -116,7 +116,7 @@ export default function Home(props) {
 
 
       <div style={{ "marginTop": "4.5em" }}>
-        <h2 className={Style.menuText}>Mukarta Na moor</h2>
+        <h2 className={Style.menuText}>Mukarta Near CMU</h2>
       </div>
 
       <div className={Style.cardLayout}>
