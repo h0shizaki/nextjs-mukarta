@@ -144,7 +144,30 @@ const Store = (initialProps) => {
     }
 
     const handleVotingButton = async () => {
-        setVotingCount(votingCount + 1)
+
+        try {
+            const updateStoreRecord = await fetch('/api/favStoreRecord', {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id
+                })
+            });
+
+            const response = await updateStoreRecord.json();
+
+            if (response && response.length > 0) {
+                setVotingCount(votingCount + 1)
+            }
+
+
+        }
+        catch (err) {
+            console.error("Error while update store", err);
+        }
+
     }
 
     if (error) {
