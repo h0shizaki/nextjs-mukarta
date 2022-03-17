@@ -21,8 +21,7 @@
 
 .nameWrapper {
     margin-bottom: 1rem ;
-    margin-top: 1rem ;
-    
+    margin-top: 1rem ; 
 }
   
 .name {
@@ -97,3 +96,24 @@
   .upvoteButton:hover {
     background-color: violet;
 }
+
+@media (max-width: 800px ) {
+    .name {
+        color: palevioletred;
+        font-size: 2rem ;
+        line-height: 2.5rem ;
+        width: 100%;
+    }
+
+    .col2{
+        margin-top: 2rem ;
+        width: 18rem;
+    }
+    
+
+    .container {
+        display: flow-root;
+        float: left;
+        padding-right : 3rem;
+    }
+  }

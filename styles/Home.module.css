@@ -42,7 +42,7 @@
 @media (max-width: 800px ) {
   .cardLayout{
     margin-left: 1rem;
-    margin-right: 1rem;
+    margin-right: 1.5rem;
   }
   .card{
     flex: 100%;
